@@ -1,4 +1,4 @@
-var monthNames = [
+const monthNames = [
     'January',
     'February',
     'March',
@@ -30,13 +30,6 @@ var picker = new Pikaday({
         return `${month}, ${day} ${year}`;
     },
     parse(dateString, format) {
-        // dateString is the result of `toString` method
-        /*const parts = dateString.split(', ');
-                                                const month = (parts[0]);
-                                                const dayAndYear = parts[1].split(' ');
-                                                const day = parseInt(dayAndYear[0], 10);
-                                                const year = parseInt(dayAndYear[1], 10);
-                                                return new Date(year, month, day);*/
         return new Date(dateString);
     }
 });
@@ -55,10 +48,9 @@ function calculateRentFee(rentPrice) {
     return fee.toFixed(2);
 }
 
-const MIN_RENT_PAYMENT_AMOUNT = 25;
-$('.amount').change(function() {
+function handleChangeAmount() {
     var rentAmount = parseFloat($('.amount').val());
-    if (rentAmount < MIN_RENT_PAYMENT_AMOUNT) {
+    if (!rentAmount || rentAmount < MIN_RENT_PAYMENT_AMOUNT) {
         $('.rent-too-small-message').removeClass('ng-hide');
         $('.rent-fee-message').addClass('ng-hide');
         $('.rent-total-message').addClass('ng-hide');
@@ -73,4 +65,7 @@ $('.amount').change(function() {
         $('.rent-too-small-message').addClass('ng-hide');
         $('.start-payment-flow').attr('disabled', false);
     }
-});
+}
+
+const MIN_RENT_PAYMENT_AMOUNT = 25;
+$('.amount').change(handleChangeAmount);
